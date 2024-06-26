@@ -1,3 +1,8 @@
+// Prevent Overscroll Bounce Effect on iOS
+document.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, { passive: false });
+
 // module aliases
 const { Engine, Render, Runner, Bodies, Composite, Body, Events, Mouse, MouseConstraint } = Matter;
 
