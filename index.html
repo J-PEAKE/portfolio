@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matter.js Rotating Box with Contained Balls</title>
+  
+  <!-- Preload fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" as="style">
+  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrJJLmg1pVFteOcEg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <!-- Preload CSS -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Preload JavaScript -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js" as="script">
+  <link rel="preload" href="main.js" as="script">
+
+  <!-- Fonts and CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Ensure font-display is set to swap to avoid invisible text while loading -->
+  <style>
+    @font-face {
+      font-family: 'Poppins';
+      src: url('https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrJJLmg1pVFteOcEg.woff2') format('woff2');
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <div id="content" class="content">
+    <div class="title-wrapper">
+      <h1 class="masked-title">JON IS THINKING<span class="blinking">.</span></h1>
+    </div>
+    <canvas id="canvas" class="canvas"></canvas>
+  </div>
+
+  <!-- Load JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js" defer></script>
+  <script src="main.js" defer></script>
+</body>
+</html>
+
