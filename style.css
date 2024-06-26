@@ -8,6 +8,7 @@ body {
   transform: translateX(-50%);
   font-family: 'Poppins', sans-serif;
   background: #e22a2a; /* Ensure the background matches your canvas */
+  overscroll-behavior: none; /* Prevent scroll chaining */
 }
 
 @media (max-width: 1024px) {
