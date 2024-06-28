@@ -1,0 +1,67 @@
+@import url('./css/title-animation.css');
+@import url('./css/colours.css');
+
+/* Global styles */
+body {
+    margin: 0;
+    height: 100vh;
+    width: 1024px;
+    position: absolute;
+    align-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Poppins', sans-serif;
+    background: var(--background-colour); /* Ensure the background matches your canvas */
+    overscroll-behavior: none; /* Prevent scroll chaining */
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (max-width: 1024px) {
+    body {
+      width: 100%;
+    }
+  }
+
+  h1 {
+    color: var(--text-body);
+    margin: 0;
+    padding: 8px 0;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 132px;
+    align-items: center;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+/* General layout */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 50px;
+    padding: 20px;
+  }
+  
+  /* Mobile breakpoint */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column-reverse; /* Change to column layout */
+      gap: 0px;
+    }
+  }
+
+/* Header styles */
+.header {
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.canvas {
+  cursor: n-resize;
+}
