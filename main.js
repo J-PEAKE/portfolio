@@ -100,7 +100,7 @@ const backgroundBox = Bodies.rectangle(boxCenterX, boxCenterY, boxWidth - 30, bo
     category: 0
   },
   render: {
-    fillStyle: '#ffffff' // white fill color for background box
+    fillStyle: '#1C5D99' // white fill color for background box
   }
 });
 
