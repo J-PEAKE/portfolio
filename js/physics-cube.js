@@ -26,21 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {
   const circleA = Bodies.circle(150, 30, 16, { 
     restitution: 0.8,
     render: {
-      fillStyle: '#000000', // black fill color
+      fillStyle: '#ffffff', // black fill color
       strokeStyle: '#ffffff' // white stroke color
     }
   });
   const circleB = Bodies.circle(150, 50, 24, { 
     restitution: 0.7,
     render: {
-      fillStyle: '#000000', // black fill color
+      fillStyle: '#ffffff', // black fill color
       strokeStyle: '#ffffff' // white stroke color
     }
   });
   const circleC = Bodies.circle(150, 80, 32, { 
     restitution: 0.5,
     render: {
-      fillStyle: '#000000', // black fill color
+      fillStyle: '#ffffff', // black fill color
       strokeStyle: '#ffffff' // white stroke color
     }
   });
