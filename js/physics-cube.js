@@ -3,8 +3,10 @@ console.log('physics-cube.js is loaded');
 document.addEventListener("DOMContentLoaded", function() {
   const { Engine, Render, Runner, Bodies, Composite, Body, Events } = Matter;
 
+  // Create a Matter.js engine
   const engine = Engine.create();
 
+  // Create a Matter.js renderer
   const render = Render.create({
     element: document.getElementById('container'),
     engine: engine,
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  // Create circle bodies
   const circleA = Bodies.circle(150, 30, 16, {
     restitution: 0.8,
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
@@ -30,15 +33,18 @@ document.addEventListener("DOMContentLoaded", function() {
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
 
+  // Define dimensions for the box
   const boxWidth = 200;
   const boxHeight = 200;
   const thickness = 20;
 
+  // Define positions for the box center
   const boxCenterX = 150;
   const boxCenterY = 200;
   const halfWidth = boxWidth / 2;
   const halfHeight = boxHeight / 2;
 
+  // Create box sides
   const boxTop = Bodies.rectangle(boxCenterX, boxCenterY - halfHeight + thickness / 2, boxWidth, thickness, {
     isStatic: true,
     render: { fillStyle: 'transparent' }
@@ -56,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
     render: { fillStyle: 'transparent' }
   });
 
+  // Create the complete box by combining the sides
   let box = Body.create({
     parts: [boxTop, boxBottom, boxLeft, boxRight],
     isStatic: true,
@@ -65,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  // Create the background box
   const backgroundBox = Bodies.rectangle(boxCenterX, boxCenterY, boxWidth - 30, boxHeight - 30, {
     isStatic: true,
     collisionFilter: {
@@ -74,19 +82,21 @@ document.addEventListener("DOMContentLoaded", function() {
     render: { fillStyle: '#1C5D99' }
   });
 
+  // Set the initial angle for the background box
   const initialAngle = Math.PI / 4;
   Body.setAngle(backgroundBox, initialAngle);
-  let initialBackgroundAngle = initialAngle;
 
-  // Composite.add(engine.world, [backgroundBox, box, circleA, circleB, circleC]);
-  Composite.add(engine.world, [backgroundBox, box, circleC]);
+  // Add all bodies to the world
+  Composite.add(engine.world, [backgroundBox, box, circleA, circleB, circleC]);
 
-
+  // Run the renderer
   Render.run(render);
 
+  // Create and run the runner
   const runner = Runner.create();
   Runner.run(runner, engine);
 
+  // Delay enabling collisions for the box
   setTimeout(() => {
     Composite.remove(engine.world, box);
     box = Body.create({
@@ -97,14 +107,31 @@ document.addEventListener("DOMContentLoaded", function() {
     Composite.add(engine.world, box);
   }, 500);
 
+  // Initialize rotation variables
   let angularVelocity = 0.0;
-  const angularDamping = 0.97;
+  const angularDamping = 0.98;
+  let boxRemoved = false;
+  let scrollEnabled = false;
 
   const thresholdAngle = Math.PI;
 
   const color1 = '#222222';
   const color2 = '#1C5D99';
 
+  // Function to disable scrolling
+  function disableScroll() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Function to enable scrolling
+  function enableScroll() {
+    document.body.style.overflow = 'auto';
+  }
+
+  // Disable scroll on load
+  disableScroll();
+
+  // Event listener for engine updates
   Events.on(engine, 'beforeUpdate', () => {
     if (Math.abs(angularVelocity) > 0.0001) {
       if (box) {
@@ -113,23 +140,34 @@ document.addEventListener("DOMContentLoaded", function() {
       Body.rotate(backgroundBox, angularVelocity);
       angularVelocity *= angularDamping;
 
-      let angleDifference = backgroundBox.angle - initialBackgroundAngle;
+      let currentAngle = backgroundBox.angle - initialAngle;
+      let absoluteAngle = Math.abs(currentAngle % (2 * Math.PI));
+      let interpolationFactor;
 
-      console.log('Angle difference:', angleDifference);
-      console.log('Background box angle:', backgroundBox.angle);
-      console.log('Initial background angle:', initialBackgroundAngle);
+      if (absoluteAngle <= thresholdAngle) {
+        interpolationFactor = absoluteAngle / thresholdAngle;
+      } else {
+        interpolationFactor = (2 * Math.PI - absoluteAngle) / thresholdAngle;
+      }
 
-      let interpolationFactor = Math.abs(angleDifference / thresholdAngle);
-      interpolationFactor = Math.min(1, interpolationFactor);
+      interpolationFactor = Math.min(1, Math.max(0, interpolationFactor));
 
-      if (Math.abs(angleDifference) >= thresholdAngle) {
+      // Remove the box after the threshold angle is passed
+      if (absoluteAngle >= thresholdAngle && !boxRemoved) {
         if (box) {
           Composite.remove(engine.world, box);
           box = null;
         }
         console.log('Current state of engine.world:', engine.world.bodies);
+
+        // Enable scroll after threshold is passed
+        if (!scrollEnabled) {
+          enableScroll();
+          scrollEnabled = true;
+        }
       }
 
+      // Interpolate background color
       let r = Math.round(parseInt(color1.substring(1, 3), 16) * (1 - interpolationFactor) + parseInt(color2.substring(1, 3), 16) * interpolationFactor);
       let g = Math.round(parseInt(color1.substring(3, 5), 16) * (1 - interpolationFactor) + parseInt(color2.substring(3, 5), 16) * interpolationFactor);
       let b = Math.round(parseInt(color1.substring(5, 7), 16) * (1 - interpolationFactor) + parseInt(color2.substring(5, 7), 16) * interpolationFactor);
@@ -137,9 +175,16 @@ document.addEventListener("DOMContentLoaded", function() {
       let interpolatedColor = `rgb(${r}, ${g}, ${b})`;
 
       document.body.style.backgroundColor = interpolatedColor;
+
+      // Reset the initial angle after a full rotation
+      if (absoluteAngle >= 2 * Math.PI) {
+        document.body.style.backgroundColor = color1;
+        initialAngle = backgroundBox.angle;
+      }
     }
   });
 
+  // Event listener for mouse wheel
   window.addEventListener('wheel', function(event) {
     angularVelocity += event.deltaY * 0.0001;
   });
@@ -147,16 +192,19 @@ document.addEventListener("DOMContentLoaded", function() {
   let isDragging = false;
   let lastMouseX, lastMouseY;
 
+  // Event listener for starting drag
   function startDrag(event) {
     isDragging = true;
     lastMouseX = event.clientX || event.touches[0].clientX;
     lastMouseY = event.clientY || event.touches[0].clientY;
   }
 
+  // Event listener for ending drag
   function endDrag() {
     isDragging = false;
   }
 
+  // Event listener for dragging
   function drag(event) {
     if (!isDragging) return;
 
@@ -171,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function() {
     lastMouseY = mouseY;
   }
 
+  // Add mouse and touch event listeners for dragging
   window.addEventListener('mousedown', startDrag);
   window.addEventListener('mouseup', endDrag);
   window.addEventListener('mousemove', drag);
