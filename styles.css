@@ -4,12 +4,11 @@
 /* Global styles */
 body {
     margin: 0;
-    height: 100vh;
-    width: 1024px;
-    position: absolute;
-    align-content: center;
-    left: 50%;
-    transform: translateX(-50%);
+    height: 100vh;  /* Full viewport height */
+    width: 100vw;   /* Full viewport width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Poppins', sans-serif;
     background: var(--background-colour); /* Ensure the background matches your canvas */
     overscroll-behavior: none; /* Prevent scroll chaining */
@@ -18,11 +17,11 @@ body {
 
 @media (max-width: 1024px) {
     body {
-      width: 100%;
+        width: 100%;
     }
-  }
+}
 
-  h1 {
+h1 {
     color: var(--text-body);
     margin: 0;
     padding: 8px 0;
@@ -34,7 +33,7 @@ body {
     align-items: center;
     letter-spacing: -0.03em;
     text-transform: uppercase;
-  }
+}
 
 /* General layout */
 .container {
@@ -45,15 +44,15 @@ body {
     width: 100%;
     gap: 50px;
     padding: 20px;
-  }
-  
-  /* Mobile breakpoint */
-  @media (max-width: 768px) {
+    box-sizing: border-box;  /* Ensure padding is included in width */
+}
+
+@media (max-width: 768px) {
     .container {
-      flex-direction: column-reverse; /* Change to column layout */
-      gap: 0px;
+        flex-direction: column-reverse; /* Change to column layout */
+        gap: 0px;
     }
-  }
+}
 
 /* Header styles */
 .header {
@@ -63,5 +62,5 @@ body {
 }
 
 .canvas {
-  cursor: n-resize;
+    cursor: n-resize;
 }
