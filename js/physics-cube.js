@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
   const circleC = Bodies.circle(150, 80, 32, {
-    restitution: 0.5,
+    restitution: 0.8,
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
 
@@ -78,7 +78,9 @@ document.addEventListener("DOMContentLoaded", function() {
   Body.setAngle(backgroundBox, initialAngle);
   let initialBackgroundAngle = initialAngle;
 
-  Composite.add(engine.world, [backgroundBox, box, circleA, circleB, circleC]);
+  // Composite.add(engine.world, [backgroundBox, box, circleA, circleB, circleC]);
+  Composite.add(engine.world, [backgroundBox, box, circleC]);
+
 
   Render.run(render);
 
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }, 500);
 
   let angularVelocity = 0.0;
-  const angularDamping = 0.98;
+  const angularDamping = 0.97;
 
   const thresholdAngle = Math.PI;
 
