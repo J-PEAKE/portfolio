@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Create circle bodies
   const circleA = Bodies.circle(150, 30, 16, {
-    restitution: 0.8,
+    restitution: 0.6,
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
   const circleB = Bodies.circle(150, 50, 24, {

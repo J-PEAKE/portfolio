@@ -10,7 +10,6 @@ body {
     align-items: flex-start;
     font-family: 'Poppins', sans-serif;
     background: var(--background-colour); /* Ensure the background matches your canvas */
-    overscroll-behavior: none; /* Prevent scroll chaining */
     padding-bottom: env(safe-area-inset-bottom);
     flex-direction: column;
 }
