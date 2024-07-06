@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Create circle bodies
   const circleA = Bodies.circle(150, 30, 16, {
-    restitution: 0.6,
+    restitution: 0.7,
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
   const circleB = Bodies.circle(150, 50, 24, {
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
   const circleC = Bodies.circle(150, 80, 32, {
-    restitution: 0.8,
+    restitution: 0.7,
     render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
   });
 
@@ -165,6 +165,14 @@ document.addEventListener("DOMContentLoaded", function() {
           enableScroll();
           scrollEnabled = true;
         }
+      } else if (absoluteAngle < thresholdAngle && boxRemoved) {
+        boxRemoved = false;
+        box = Body.create({
+          parts: [boxTop, boxBottom, boxLeft, boxRight],
+          isStatic: true
+        });
+        Body.setAngle(box, backgroundBox.angle);
+        Composite.add(engine.world, box);
       }
 
       // Interpolate background color
@@ -186,7 +194,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Event listener for mouse wheel
   window.addEventListener('wheel', function(event) {
-    angularVelocity += event.deltaY * 0.0001;
+    if (!scrollEnabled) {
+      angularVelocity += event.deltaY * 0.0001;
+    }
   });
 
   let isDragging = false;
@@ -206,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Event listener for dragging
   function drag(event) {
-    if (!isDragging) return;
+    if (!isDragging || scrollEnabled) return;
 
     const mouseX = event.clientX || event.touches[0].clientX;
     const mouseY = event.clientY || event.touches[0].clientY;

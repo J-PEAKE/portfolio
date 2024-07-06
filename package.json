@@ -5,20 +5,36 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server"
+    "start": "webpack serve",
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
+  "homepage": "https://<username>.github.io/<repository-name>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/J-PEAKE/portfolio.git"
+    "url": "git+https://github.com/<username>/<repository-name>.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/J-PEAKE/portfolio/issues"
+    "url": "https://github.com/<username>/<repository-name>/issues"
   },
-  "homepage": "https://github.com/J-PEAKE/portfolio#readme",
+  "homepage": "https://github.com/<username>/<repository-name>#readme",
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "matter-js": "^0.17.1",
+    "gh-pages": "^3.2.3",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1",
+    "css-loader": "^6.3.0",
+    "style-loader": "^3.2.1",
+    "babel-loader": "^8.2.3",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "postcss-loader": "^6.1.1",
+    "postcss-preset-env": "^6.7.0"
   }
 }
