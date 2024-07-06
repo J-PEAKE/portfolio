@@ -7,13 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve",
     "build": "webpack --mode production",
-<<<<<<< Updated upstream
-    "deploy": "npm run build && gh-pages -d dist"
-=======
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -b production",
     "dev": "webpack serve --mode development"
->>>>>>> Stashed changes
   },
   "repository": {
     "type": "git",
