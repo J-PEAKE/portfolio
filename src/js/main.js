@@ -4,6 +4,9 @@ import { setupEvents } from './events';
 import { createBox, createCircles, backgroundBox } from './shapes';
 import { addBodiesToWorld } from './functions';
 import Matter from 'matter-js';
+import { header } from './header';
+
+// document.body.appendChild(header);
 
 const { Engine, Runner, Composite, Body } = Matter;
 
@@ -40,3 +43,6 @@ setTimeout(() => {
   // Re-setup events with the new box
   setupEvents(engine, backgroundBox, initialAngle, box);
 }, 500);
+
+
+// Append the header to the document body or any other container element
