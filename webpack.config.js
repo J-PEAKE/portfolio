@@ -8,7 +8,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', // Use '/' for local development
+    publicPath: '/',
   },
   devServer: {
     static: {
