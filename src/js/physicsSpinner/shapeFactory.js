@@ -1,25 +1,29 @@
-// src/js/ShapeFactory.js
 import Matter from 'matter-js';
 
-class ShapeFactory {
-  constructor(Matter) {
-    this.Matter = Matter;
-  }
+const { Bodies, Body } = Matter;
 
-  createCircles() {
-    const { Bodies } = this.Matter;
-    return [
-      Bodies.circle(150, 30, 16, { restitution: 0.7, render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' } }),
-      Bodies.circle(150, 50, 24, { restitution: 0.7, render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' } }),
-      Bodies.circle(150, 80, 32, { restitution: 0.7, render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' } })
-    ];
-  }
+const ShapeFactory = {
+  createCircles: () => {
+    const circleA = Bodies.circle(150, 30, 16, {
+      restitution: 0.7,
+      render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
+    });
+    const circleB = Bodies.circle(150, 50, 24, {
+      restitution: 0.7,
+      render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
+    });
+    const circleC = Bodies.circle(150, 80, 32, {
+      restitution: 0.7,
+      render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
+    });
+    return [circleA, circleB, circleC];
+  },
 
-  createBox() {
-    const { Bodies, Body } = this.Matter;
+  createBox: () => {
     const boxWidth = 200;
     const boxHeight = 200;
     const thickness = 20;
+
     const boxCenterX = 150;
     const boxCenterY = 200;
     const halfWidth = boxWidth / 2;
@@ -51,16 +55,20 @@ class ShapeFactory {
         mask: 0xFFFFFFFF
       }
     });
-  }
+  },
 
-  createBackgroundBox() {
-    const { Bodies } = this.Matter;
-    return Bodies.rectangle(150, 200, 170, 170, {
+  createBackgroundBox: () => {
+    const boxWidth = 170;
+    const boxHeight = 170;
+    const boxCenterX = 150;
+    const boxCenterY = 200;
+
+    return Bodies.rectangle(boxCenterX, boxCenterY, boxWidth, boxHeight, {
       isStatic: true,
-      isSensor: true,
+      isSensor: true, // Makes the body non-collidable
       render: { fillStyle: '#1C5D99' }
     });
   }
-}
+};
 
 export default ShapeFactory;
