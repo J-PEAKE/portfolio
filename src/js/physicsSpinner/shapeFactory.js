@@ -9,11 +9,11 @@ class ShapeFactory {
       render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
     });
     const circleB = Bodies.circle(150, 50, 24, {
-      restitution: 0.7,
+      restitution: 0.8,
       render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
     });
     const circleC = Bodies.circle(150, 80, 32, {
-      restitution: 0.7,
+      restitution: 0.9,
       render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
     });
     return [circleA, circleB, circleC];
@@ -31,19 +31,19 @@ class ShapeFactory {
 
     const boxTop = Bodies.rectangle(boxCenterX, boxCenterY - halfHeight + thickness / 2, boxWidth, thickness, {
       isStatic: true,
-      render: { fillStyle: '#ffffff' }
+      render: { fillStyle: 'transparent' }
     });
     const boxBottom = Bodies.rectangle(boxCenterX, boxCenterY + halfHeight - thickness / 2, boxWidth, thickness, {
       isStatic: true,
-      render: { fillStyle: '#ffffff' }
+      render: { fillStyle: 'transparent' }
     });
     const boxLeft = Bodies.rectangle(boxCenterX - halfWidth + thickness / 2, boxCenterY, thickness, boxHeight, {
       isStatic: true,
-      render: { fillStyle: '#ffffff' }
+      render: { fillStyle: 'transparent' }
     });
     const boxRight = Bodies.rectangle(boxCenterX + halfWidth - thickness / 2, boxCenterY, thickness, boxHeight, {
       isStatic: true,
-      render: { fillStyle: '#ffffff' }
+      render: { fillStyle: 'transparent' }
     });
 
     return Body.create({

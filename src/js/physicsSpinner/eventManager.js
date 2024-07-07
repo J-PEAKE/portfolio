@@ -2,13 +2,14 @@
 import Matter from 'matter-js';
 
 class EventManager {
-  constructor(engine, backgroundBox, colors) {
+  constructor(engine, backgroundBox, box, colors) {
     this.engine = engine;
     this.backgroundBox = backgroundBox;
+    this.box = box;
     this.colors = colors;
 
-    this.angularVelocity = 0.0;
-    this.angularDamping = 0.98;
+    this.angularVelocity = 0.0475;
+    this.angularDamping = 0.97;
     this.rotationEnabled = true;
     this.initialAngle = Math.PI / 4;
 
@@ -18,6 +19,7 @@ class EventManager {
   update() {
     if (this.rotationEnabled && Math.abs(this.angularVelocity) > 0.0001) {
       Matter.Body.rotate(this.backgroundBox, this.angularVelocity);
+      Matter.Body.rotate(this.box, this.angularVelocity);
       this.angularVelocity *= this.angularDamping;
 
       let currentAngle = this.backgroundBox.angle - this.initialAngle;

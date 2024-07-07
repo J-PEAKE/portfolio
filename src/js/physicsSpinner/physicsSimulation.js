@@ -48,7 +48,7 @@ class PhysicsSimulation {
     Matter.Runner.run(this.runner, this.engine);
 
     // Initialize EventManager
-    this.eventManager = new EventManager(this.engine, this.backgroundBox, this.colors);
+    this.eventManager = new EventManager(this.engine, this.backgroundBox, this.box, this.colors);
 
     // Disable physics for the box initially
     Composite.remove(this.engine.world, this.box);
