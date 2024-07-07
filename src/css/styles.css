@@ -1,10 +1,12 @@
-@import url('./title-animation.css');
-@import url('./colours.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+@import url('../css/title-animation.css');
+@import url('../css/colours.css');
 
 /* Global styles */
 body {
     margin: 0;
-    height: 200vh;  /* Full viewport height */
+    height: 100vh;  /* Full viewport height */
     display: flex;
     justify-content: center;
     align-items: flex-start;

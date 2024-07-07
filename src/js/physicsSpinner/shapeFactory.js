@@ -31,19 +31,19 @@ class ShapeFactory {
 
     const boxTop = Bodies.rectangle(boxCenterX, boxCenterY - halfHeight + thickness / 2, boxWidth, thickness, {
       isStatic: true,
-      render: { fillStyle: 'transparent' }
+      render: { fillStyle: '#ffffff' }
     });
     const boxBottom = Bodies.rectangle(boxCenterX, boxCenterY + halfHeight - thickness / 2, boxWidth, thickness, {
       isStatic: true,
-      render: { fillStyle: 'transparent' }
+      render: { fillStyle: '#ffffff' }
     });
     const boxLeft = Bodies.rectangle(boxCenterX - halfWidth + thickness / 2, boxCenterY, thickness, boxHeight, {
       isStatic: true,
-      render: { fillStyle: 'transparent' }
+      render: { fillStyle: '#ffffff' }
     });
     const boxRight = Bodies.rectangle(boxCenterX + halfWidth - thickness / 2, boxCenterY, thickness, boxHeight, {
       isStatic: true,
-      render: { fillStyle: 'transparent' }
+      render: { fillStyle: '#ffffff' }
     });
 
     return Body.create({
