@@ -10,51 +10,54 @@ class PhysicsSimulation {
     this.thresholdAngle = thresholdAngle;
     this.color1 = color1;
     this.color2 = color2;
-
-    console.log('Setting up canvas');
-    this.engine = this.setupCanvas();
-    console.log('Creating shapes');
-    this.circles = ShapeFactory.createCircles();
-    this.box = ShapeFactory.createBox();
-    this.backgroundBox = ShapeFactory.createBackgroundBox();
-    this.addBodiesToWorld([this.backgroundBox, ...this.circles, this.box]);
   }
 
-  setupCanvas() {
+  init() {
     const container = document.getElementById(this.containerId);
     if (!container) {
       throw new Error(`Container with id ${this.containerId} not found`);
     }
 
-    if (this.className) {
-      container.classList.add(this.className);
-    }
+    console.log(`Initializing PhysicsSimulation for container: ${this.containerId}`);
 
-    const engine = Matter.Engine.create();
-    const render = Matter.Render.create({
+    this.canvas = document.createElement('canvas');
+    this.canvas.classList.add(this.className);
+    container.appendChild(this.canvas);
+
+    const { Engine, Render, Runner, Composite } = Matter;
+    this.engine = Engine.create();
+
+    this.render = Render.create({
       element: container,
-      engine: engine,
+      engine: this.engine,
+      canvas: this.canvas,
       options: {
-        width: 800,
-        height: 600,
+        width: 300,
+        height: 400,
         wireframes: false,
-      },
+        background: 'transparent',
+      }
     });
-    Matter.Render.run(render);
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
-    return engine;
-  }
 
-  addBodiesToWorld(bodies) {
-    Matter.Composite.add(this.engine.world, bodies);
-  }
+    this.backgroundBox = ShapeFactory.createBackgroundBox();
+    this.circles = ShapeFactory.createCircles();
+    this.box = ShapeFactory.createBox();
 
-  init() {
-    console.log('Initializing event manager');
-    const eventManager = new EventManager(this.engine, this.box, this.backgroundBox, this.initialAngle, this.thresholdAngle, this.color1, this.color2);
+    Composite.add(this.engine.world, [this.backgroundBox, this.box, ...this.circles]);
+
+    Render.run(this.render);
+    this.runner = Runner.create();
+    Runner.run(this.runner, this.engine);
+
+    const eventManager = new EventManager(this.engine, this.render, this.backgroundBox, this.box, this.initialAngle, this.thresholdAngle, this.color1, this.color2);
     eventManager.setupEvents();
-    console.log('Events set up');
+
+    setTimeout(() => {
+      Composite.remove(this.engine.world, this.box);
+      this.box = ShapeFactory.createBox();
+      Matter.Body.setAngle(this.box, this.backgroundBox.angle);
+      Composite.add(this.engine.world, this.box);
+    }, 500);
   }
 }
 

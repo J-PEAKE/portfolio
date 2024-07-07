@@ -2,8 +2,8 @@ import Matter from 'matter-js';
 
 const { Bodies, Body } = Matter;
 
-const ShapeFactory = {
-  createCircles: () => {
+class ShapeFactory {
+  static createCircles() {
     const circleA = Bodies.circle(150, 30, 16, {
       restitution: 0.7,
       render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
@@ -17,9 +17,9 @@ const ShapeFactory = {
       render: { fillStyle: '#ffffff', strokeStyle: '#ffffff' }
     });
     return [circleA, circleB, circleC];
-  },
+  }
 
-  createBox: () => {
+  static createBox() {
     const boxWidth = 200;
     const boxHeight = 200;
     const thickness = 20;
@@ -55,9 +55,9 @@ const ShapeFactory = {
         mask: 0xFFFFFFFF
       }
     });
-  },
+  }
 
-  createBackgroundBox: () => {
+  static createBackgroundBox() {
     const boxWidth = 170;
     const boxHeight = 170;
     const boxCenterX = 150;
@@ -69,6 +69,6 @@ const ShapeFactory = {
       render: { fillStyle: '#1C5D99' }
     });
   }
-};
+}
 
 export default ShapeFactory;
