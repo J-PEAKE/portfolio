@@ -11,20 +11,25 @@ importAll(require.context('.', true, /\.js$/));
 
 import '../css/styles.css';
 import PhysicsSimulation from './physicsSpinner/physicsSimulation';
-import Header from './nav/header';
+import Header from './site-components/header';
 
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContentLoaded event triggered');
 
 
-  const header = new Header("header", "header");
+  const header = new Header(["interactive", "visualisation", "cv", "contact"]);
   header.render();
   
 
-  const container1 = document.getElementById('container1');
-  if (container1) {
-    console.log('Instantiating PhysicsSimulation for container: container1');
-    new PhysicsSimulation(container1, ['#222222', '#1C5D99'], 500);
-  }
+  const physicsSimulation = new PhysicsSimulation('container1');
+  physicsSimulation.init();
 });
+
+
+// Prevent default touch events to disable screen bounce on iOS
+document.addEventListener('touchmove', function(event) {
+  if (!event.target.closest('.scrollable')) {
+    event.preventDefault();
+  }
+}, { passive: false });

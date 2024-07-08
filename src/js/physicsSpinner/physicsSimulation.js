@@ -1,91 +1,61 @@
 // src/js/physicsSpinner/physicsSimulation.js
 import Matter from 'matter-js';
-import EventManager from './eventManager';
 import ShapeFactory from './shapeFactory';
+import EventManager from './eventManager';
 
-class PhysicsSimulation {
-  constructor(container, colors, delay) {
-    this.container = container;
-    this.colors = colors;
-    this.delay = delay;
+export default class PhysicsSimulation {
+  constructor(containerId) {
+    this.containerId = containerId;
+    this.color1 = '#222222';
+    this.color2 = '#1C5D99';
+    this.initialAngle = Math.PI / 4; // Set the initial angle to 45 degrees
+
     this.engine = Matter.Engine.create();
-    this.render = null;
-    this.circles = [];
-    this.box = null;
-    this.backgroundBox = null;
-    this.runner = null;
-    this.eventManager = null;
-
-    this.init();
-  }
-
-  init() {
-    console.log(`Initializing PhysicsSimulation for container: ${this.container.id}`);
-    const { Render, Composite, Body } = Matter;
-
-    this.render = Render.create({
-      element: this.container,
+    this.render = Matter.Render.create({
+      element: document.getElementById(this.containerId),
       engine: this.engine,
+      canvas: document.createElement('canvas'),
       options: {
         width: 300,
         height: 400,
         wireframes: false,
-        background: 'transparent'
-      }
+        background: 'transparent',
+      },
     });
+  }
 
-    this.circles = ShapeFactory.createCircles();
+  init() {
+    console.log(`Initializing PhysicsSimulation for container: ${this.containerId}`);
+    
+    const circles = ShapeFactory.createCircles();
     this.box = ShapeFactory.createBox();
     this.backgroundBox = ShapeFactory.createBackgroundBox();
 
-    // Rotate the background box initially
-    Body.setAngle(this.backgroundBox, Math.PI / 4);
+    Matter.Body.setAngle(this.backgroundBox, this.initialAngle); // Apply the initial angle
 
-    Composite.add(this.engine.world, [this.backgroundBox, ...this.circles]);
+    this.addBodiesToWorld([this.backgroundBox, ...circles]); // Initially, add only the background box and circles
 
-    Render.run(this.render);
-    this.runner = Matter.Runner.create();
-    Matter.Runner.run(this.runner, this.engine);
+    Matter.Render.run(this.render);
 
-    // Initialize EventManager
-    this.eventManager = new EventManager(this.engine, this.backgroundBox, this.box, this.colors);
+    const runner = Matter.Runner.create();
+    Matter.Runner.run(runner, this.engine);
 
-    // Disable physics for the box initially
-    Composite.remove(this.engine.world, this.box);
+    this.eventManager = new EventManager(this.engine, this.render, this);
+    this.eventManager.setupEvents();
+
     setTimeout(() => {
-      // Sync box angle with backgroundBox angle before adding it to the world
-      Body.setAngle(this.box, this.backgroundBox.angle);
-      Composite.add(this.engine.world, this.box);
-    }, this.delay);
-
-    this.setupEvents();
+      this.resetBoxWithAngle();
+    }, 500);
   }
 
-  setupEvents() {
-    window.addEventListener('wheel', this.handleWheelEvent.bind(this), { passive: false });
+  addBodiesToWorld(bodies) {
+    Matter.Composite.add(this.engine.world, bodies);
   }
 
-  handleWheelEvent(event) {
-    console.log('Mouse wheel event detected');
-    if (this.eventManager && this.eventManager.rotationEnabled) {
-      let currentAngle = this.backgroundBox.angle - this.eventManager.initialAngle;
-      let absoluteAngle = Math.abs(currentAngle % (2 * Math.PI));
-
-      if (absoluteAngle <= 2 * Math.PI) {
-        if (event.deltaY > 0) {
-          this.eventManager.angularVelocity += event.deltaY * 0.0001;
-        } else if (event.deltaY < 0 && currentAngle > 0) {
-          this.eventManager.angularVelocity += event.deltaY * 0.0001;
-        } else {
-          event.preventDefault();
-        }
-      } else {
-        event.preventDefault();
-      }
-    } else {
-      event.preventDefault();
-    }
+  resetBoxWithAngle() {
+    console.log('Resetting box with angle');
+    this.box = ShapeFactory.createBox();
+    Matter.Body.setAngle(this.box, this.backgroundBox.angle);
+    this.addBodiesToWorld([this.box]);
   }
 }
-
-export default PhysicsSimulation;

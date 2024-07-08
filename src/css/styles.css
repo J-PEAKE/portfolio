@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
 
 @import url('../css/title-animation.css');
 @import url('../css/colours.css');
+@import url('../css/header.css');
 
 /* Global styles */
 body {
@@ -15,6 +17,8 @@ body {
     overscroll-behavior: none; /* Prevent scroll chaining */
     padding-bottom: env(safe-area-inset-bottom);
     flex-direction: column;
+    -webkit-overflow-scrolling: auto; /* Disable iOS bounce effect */
+
 }
 
 @media (max-width: 1024px) {
