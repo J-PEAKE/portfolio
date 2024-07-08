@@ -17,11 +17,10 @@ import Header from './nav/header';
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContentLoaded event triggered');
 
-  const headerContainer = document.getElementById('headerContainer');
-  if (headerContainer) {
-    console.log('Instantiating Header for container: headerContainer');
-    new Header(headerContainer);
-  }
+
+  const header = new Header("header", "header");
+  header.render();
+  
 
   const container1 = document.getElementById('container1');
   if (container1) {

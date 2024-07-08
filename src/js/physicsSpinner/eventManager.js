@@ -8,8 +8,8 @@ class EventManager {
     this.box = box;
     this.colors = colors;
 
-    this.angularVelocity = 0.0475;
-    this.angularDamping = 0.97;
+    this.angularVelocity = 0.0;
+    this.angularDamping = 0.98;
     this.rotationEnabled = true;
     this.initialAngle = Math.PI / 4;
 

@@ -1,25 +1,22 @@
 class Header {
-  constructor(containerId) {
-    this.containerId = containerId;
+  constructor(elementId, elementClass) {
+    // Initialize header properties here
+    this.elementId = elementId;
+    this.elementClass = elementClass;
   }
 
-  create() {
-    const container = document.getElementById(this.containerId);
-    if (!container) {
-      throw new Error(`Container with id ${this.containerId} not found`);
-    }
-
+  // Add methods for header functionality here
+  render() {
+    // Create header element
     const header = document.createElement('header');
-    header.classList.add('header');
-
-    // Add your header content here
-    const logo = document.createElement('img');
-    logo.src = 'assets/images/logo.png'; // Ensure the path is correct
-    logo.alt = 'Logo';
-    header.appendChild(logo);
-
-    container.appendChild(header);
+    header.id = this.elementId;
+    header.classList.add(this.elementClass);
+    // header.innerHTML = '<h1>My Header</h1>';
+    document.body.appendChild(header);
   }
 }
 
+// Export the Header class
 export default Header;
+const myHeader = new Header('my-header', 'header-class');
+myHeader.render();
